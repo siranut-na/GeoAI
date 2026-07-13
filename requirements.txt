@@ -1,0 +1,70 @@
+# ============================================================
+#  GeoAI - Recommended Python packages
+#  วิธีติดตั้ง (หลัง active .venv):
+#     pip install -r requirements.txt
+#  เอา # ออกหน้าบรรทัดที่ต้องการใช้ (ค่าเริ่มต้นคอมเมนต์ไว้หมด)
+#
+#  ⚠️ หมายเหตุสำคัญเรื่อง Python 3.14:
+#     ตอนนี้ venv เป็น Python 3.14.6 ซึ่งค่อนข้างใหม่มาก
+#     หลายไลบรารีสาย geospatial/ML (GDAL, rasterio, torch ฯลฯ)
+#     อาจยังไม่มี wheel สำหรับ 3.14 -> ติดตั้งไม่ผ่าน
+#     ถ้าเจอ error แนะนำสร้าง venv ใหม่ด้วย Python 3.11 หรือ 3.12:
+#        py -3.12 -m venv .venv
+# ============================================================
+
+
+# ---- Core / Data ----
+numpy
+pandas
+scipy
+# matplotlib          # กราฟ/plot ทั่วไป
+# tqdm                # progress bar
+
+
+# ---- Geospatial: Vector (ข้อมูลเวกเตอร์ shp/geojson) ----
+# geopandas           # ตาราง + geometry (pandas สำหรับ GIS)
+# shapely             # จัดการ geometry (point/line/polygon)
+# fiona               # อ่าน/เขียนไฟล์เวกเตอร์
+# pyproj              # แปลงระบบพิกัด (CRS/projection)
+
+
+# ---- Geospatial: Raster (ภาพดาวเทียม/DEM) ----
+# rasterio            # อ่าน/เขียน raster (GeoTIFF ฯลฯ) - แนะนำ
+# rioxarray           # raster + xarray (labeled arrays)
+# xarray              # จัดการ array หลายมิติ + metadata
+# GDAL                # ตัวจริงเบื้องหลังทุกอย่าง (ติดตั้งยากบน Windows)
+# earthpy             # helper งาน remote sensing
+
+
+# ---- Tiles / Web maps / Visualization ----
+# folium              # แผนที่ interactive (Leaflet)
+# leafmap             # แผนที่ + วิเคราะห์ในตัว (สาย geo-analysis)
+# contextily          # ดึง basemap มาแปะพื้นหลัง plot
+
+
+# ---- Machine Learning (คลาสสิก) ----
+# scikit-learn        # ML ทั่วไป (classification/regression/clustering)
+# xgboost             # gradient boosting
+
+
+# ---- Deep Learning (เลือกอย่างใดอย่างหนึ่ง) ----
+# torch               # PyTorch - ดู index ตาม CUDA ที่ https://pytorch.org
+# torchvision
+# tensorflow
+
+
+# ---- GeoAI เฉพาะทาง (segmentation/detection บนภาพดาวเทียม) ----
+# torchgeo            # dataset + model สำเร็จรูปสำหรับ remote sensing
+# segment-geospatial  # SAM (Segment Anything) สำหรับ geospatial
+# ultralytics         # YOLO (object detection)
+
+
+# ---- Notebook / งานทดลอง ----
+# jupyterlab
+# ipykernel           # ให้ .venv โผล่เป็น kernel ใน Jupyter/VSCode
+
+
+# ---- Dev tools (คุณภาพโค้ด) ----
+# ruff                # linter + formatter (เร็วมาก)
+# black               # formatter
+# pytest              # unit test
