@@ -78,3 +78,6 @@ desktop.ini
 # models/
 # *.pt
 # *.pth
+
+# Large raster excluded from git (exceeds GitHub 100MB limit)
+Example/Topo50K50361.tif

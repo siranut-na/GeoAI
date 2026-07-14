@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sentinel-2 Median 2026 (ปลอดเมฆ) — ประเทศไทย</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<style>
+  html,body{margin:0;height:100%}
+  #map{position:absolute;inset:0}
+  .title-box{position:absolute;top:12px;left:50px;z-index:1000;background:rgba(255,255,255,.92);
+    padding:8px 14px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.25);
+    font-family:'Segoe UI','Sarabun',Tahoma,sans-serif}
+  .title-box h1{margin:0;font-size:1rem;color:#1F4E79}
+  .title-box p{margin:2px 0 0;font-size:.72rem;color:#5a6b7b}
+  .coord{position:absolute;bottom:10px;left:10px;z-index:1000;background:rgba(255,255,255,.9);
+    padding:3px 8px;border-radius:6px;font:12px monospace;color:#333}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div class="title-box">
+  <h1>Sentinel-2 Median 2026 (ปลอดเมฆ) — ประเทศไทย</h1>
+  <p>ช่วง 1 ม.ค. – 14 ก.ค. 2026 · median · Cloud Score+ · true color (B4/B3/B2)<br>
+     พื้นหลัง: Google Maps Satellite · สลับชั้นแผนที่มุมขวาบน</p>
+</div>
+<div class="coord" id="coord">lat, lng</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+// ---- Google Maps basemaps (via Google tile servers) ----
+const gSubs = ['mt0','mt1','mt2','mt3'];
+function gLayer(lyrs){
+  return L.tileLayer('https://{s}.google.com/vt/lyrs='+lyrs+'&x={x}&y={y}&z={z}',
+    {subdomains:gSubs, maxZoom:20, attribution:'&copy; Google'});
+}
+const satellite= gLayer('s');
+const hybrid   = gLayer('y');
+const roadmap  = gLayer('m');
+const terrain  = gLayer('p');
+
+// ---- Sentinel-2 median composite (Google Earth Engine tile layer) ----
+const s2Layer = L.tileLayer('https://earthengine.googleapis.com/v1/projects/siranut-narktap/maps/f8f3f6ba3236a2a2c7b5059572c8fa03-e281bfd7490ebb7d5e619489abb6c724/tiles/{z}/{x}/{y}',
+  {maxZoom:20, opacity:1.0,
+   attribution:'Sentinel-2 / Copernicus · Google Earth Engine'});
+
+const map = L.map('map', {center:[13.03893, 101.49017], zoom:6, layers:[satellite, s2Layer]});
+
+L.control.layers(
+  {'Google ดาวเทียม (Satellite)':satellite,'Google ไฮบริด (Hybrid)':hybrid,
+   'Google ถนน (Roadmap)':roadmap,'Google ภูมิประเทศ (Terrain)':terrain},
+  {'Sentinel-2 Median 2026 (ปลอดเมฆ)':s2Layer},
+  {collapsed:false}
+).addTo(map);
+L.control.scale({imperial:false}).addTo(map);
+
+map.on('mousemove', e=>{
+  document.getElementById('coord').textContent =
+    e.latlng.lat.toFixed(5)+', '+e.latlng.lng.toFixed(5);
+});
+</script>
+</body>
+</html>
